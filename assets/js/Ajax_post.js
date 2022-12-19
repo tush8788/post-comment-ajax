@@ -7,22 +7,29 @@
         newPostform.submit(function(e){
             //off default opration
             e.preventDefault();
-            // console.log(typeof(newPostform.serialize()));
+           
             //ajax
             $.ajax({
                 type:'post',
                 url:'/post/create',
                 data:newPostform.serialize(),
                 success:function(data){
-                    console.log(data);
+                    // console.log(data.message);
+                    
                     //call function
                     let newPost=displayNewPost(data.data.post,data.data.postUser);
+                    
+                    //call noty for notifiaction
+                    NotyMessage({status:'success',message:data.message})
+                    
                     $('#post-container').prepend(newPost);
+                    
                     //calling delete post from here
                     deletePost($(' .delete-post-btn',newPost));
 
                 },
                 error:function(error){
+                    NotyMessage({status:'error',message:"Error in adding post"});
                     console.log(error.responseText);
                 }
             })
@@ -78,9 +85,14 @@
                 url:$(deleteLink).prop('href'),
                 success:function(data){
                     // console.log(data.data.post_id);
+                    //remoove element without refresh
                     $(`#post-${data.data.post_id}`).remove();
+
+                    //call noty for notifiaction
+                    NotyMessage({status:'success',message:data.message})
                 },
                 error:function(error){
+                    NotyMessage({status:'error',message:"Error in deleing post"});
                     console.log(error.responseText);
                 }
             })
