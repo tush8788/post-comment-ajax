@@ -1,6 +1,6 @@
 const PostDB = require('../models/post');
 const CommentDB = require('../models/comment');
-
+const UserDB=require('../models/user');
 
 //using async await here
 
@@ -10,11 +10,16 @@ module.exports.createPost = async function (req, res) {
     try {
         //creting post then return 
         let post=await PostDB.create({ containt: req.body.containt, user: req.user.id });
-        req.flash('success',"Post is Created !");
+        //finding user for ajax send user
+        let postUser=await UserDB.findById(post.user._id);
+     
+
+        //if ajax req then 
         if(req.xhr){
             return res.status(200).json({
                 data:{
-                    post:post
+                    post:post,
+                    postUser:postUser.name
                 },
                 message:"Post Created!"
             })
@@ -43,6 +48,18 @@ module.exports.deletePost = async function (req, res) {
 
             //delete post
             await post.remove();
+           
+
+            //finding ajax req
+            if(req.xhr){
+                return res.status(200).json({
+                    data:{
+                        post_id:req.params.id
+                    },
+                    message:"post Deleted!"
+                })
+            }
+
             req.flash('success',"Post and associated comment is deleted !");
             return res.redirect("back");
             //removing all realted comments   

@@ -14,10 +14,12 @@
                 url:'/post/create',
                 data:newPostform.serialize(),
                 success:function(data){
-                    // console.log(data);
+                    console.log(data);
                     //call function
-                    let newPost=displayNewPost(data.data.post);
+                    let newPost=displayNewPost(data.data.post,data.data.postUser);
                     $('#post-container').prepend(newPost);
+                    //calling delete post from here
+                    deletePost($(' .delete-post-btn',newPost));
 
                 },
                 error:function(error){
@@ -28,9 +30,10 @@
     }
 
     //method to crete post in dom
-    let displayNewPost=function(post){
+    //display post on page without refresh
+    let displayNewPost=function(post,postUser){
         return $(`
-            <li id="post-${post._id}%>">
+            <li id="post-${post._id}">
                
                     <h2>
                         <a class="delete-post-btn" href="/post/delete/${post._id}">X</a>
@@ -38,7 +41,7 @@
                         ${post.containt}<br>
                         <!-- showing user of post or who created this post -->
                         <small>
-                            ${post.user.name}
+                            ${postUser}
                         </small>
                     </h2>
                 
@@ -66,6 +69,34 @@
        `)
     }
 
+    //delete post 
+    let deletePost=function(deleteLink){
+        $(deleteLink).click(function(e){
+            e.preventDefault();
+            $.ajax({
+                type:'get',
+                url:$(deleteLink).prop('href'),
+                success:function(data){
+                    // console.log(data.data.post_id);
+                    $(`#post-${data.data.post_id}`).remove();
+                },
+                error:function(error){
+                    console.log(error.responseText);
+                }
+            })
+        })
+    }
+
+
+// delete after refresh page
+//    $('.delete-post-btn').click(function(e){
+//     e.preventDefault();
+//     alert($(this).attr('href'))
+    
+
+//    })
+
+    //calling functions 
     createPost();
 
 }

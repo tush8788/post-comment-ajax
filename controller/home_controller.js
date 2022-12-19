@@ -19,7 +19,7 @@ module.exports.home= async function(req,res){
         populate:{
             path:'user'
         }
-    })
+    }).sort('-createdAt');
 
     // find all user using await
     //run 2
