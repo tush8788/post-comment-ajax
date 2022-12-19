@@ -4,7 +4,7 @@
     <section id="feed-post">
             <!-- if user is sign in then only display post form -->
             <%if(locals.user){%>
-                <form action="/post/create" method="post">
+                <form action="/post/create" id="createPost" method="post">
                     <textarea name="containt" id="" cols="20" rows="5" placeholder="Text here..."
                         required></textarea><br>
                     <button type="submit">Post</button>
@@ -12,7 +12,7 @@
             <%}%>
                 
             <!--display all posts and comments-->
-            <ul>
+            <ul id="post-container">
                 <!-- adding parcials -->
                 <%-include('_post')-%>
             </ul>
@@ -26,4 +26,6 @@
             </a>    
         <%}%>
     </section>
+    <!-- post ajax req -->
+    <script src="/js/Ajax_post.js"> </script>
 </main>

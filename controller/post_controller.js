@@ -9,7 +9,17 @@ module.exports.createPost = async function (req, res) {
 
     try {
         //creting post then return 
-        await PostDB.create({ containt: req.body.containt, user: req.user.id });
+        let post=await PostDB.create({ containt: req.body.containt, user: req.user.id });
+        req.flash('success',"Post is Created !");
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    post:post
+                },
+                message:"Post Created!"
+            })
+        }
+
         req.flash('success',"Post is Created !");
         return res.redirect('/');
     }

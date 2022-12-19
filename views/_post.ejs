@@ -1,10 +1,10 @@
 <%for(let i of posts){%>
-    <li>
-        <p>
+    <li id="post-<%=i.id%>">
+       
             <h2>
                 <!-- chicking user authorize to delete post or not -->
                 <%if(locals.user && i.user.id==locals.user._id){%>   
-                    <a href="/post/delete/<%=i.id%>">X</a>
+                    <a class="delete-post-btn" href="/post/delete/<%=i.id%>">X</a>
                 <%}%>
                 <!-- showing post -->
                 <%=i.containt%><br>
@@ -13,7 +13,7 @@
                     <%=i.user.name%>
                 </small>
             </h2>
-        </p>
+        
 
         <!-- Comments -->
         <div class="Comment-container">
