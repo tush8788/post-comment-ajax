@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="/css/home.css">
+
+<main id="home-container">
+    <section id="feed-post">
+            <!-- if user is sign in then only display post form -->
+            <%if(locals.user){%>
+                <form action="/post/create" method="post">
+                    <textarea name="containt" id="" cols="20" rows="5" placeholder="Text here..."
+                        required></textarea><br>
+                    <button type="submit">Post</button>
+                </form>
+            <%}%>
+                
+            <!--display all posts and comments-->
+            <ul>
+                <!-- adding parcials -->
+                <%-include('_post')-%>
+            </ul>
+    </section>
+
+    <section id="user-friend">
+        <h3>Friends</h3>
+        <% for(let u of all_users){%>
+            <a href="/user/profile/<%=u.id%>">
+                <p><%=u.name%></p>
+            </a>    
+        <%}%>
+    </section>
+</main>
