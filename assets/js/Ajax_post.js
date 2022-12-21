@@ -113,7 +113,7 @@
     $('#post-container>li').each(function(){
         console.log(this);
         let self = $(this);
-        let deleteButton = $(' .delete-post-button', self);
+        let deleteButton = $(' .delete-post-btn', self);
         console.log("delete btn :: ",deleteButton)
         deletePost(deleteButton);
 
