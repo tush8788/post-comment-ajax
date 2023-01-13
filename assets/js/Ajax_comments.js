@@ -48,13 +48,13 @@
     let deleteComment=function(deleteLink){
         $(deleteLink).click(function(e){
             e.preventDefault();
-            console.log($(deleteLink).prop('href'));
+            // console.log($(deleteLink).prop('href'));
             // ajax req
             $.ajax({
                 type:'get',
                 url:$(deleteLink).prop('href'),
                 success:function(data){
-                    console.log(data);
+                    // console.log(data);
                     $(`#comment-${data.data.CommentId}`).remove()
                     //noty message
                     NotyMessage({status:"success",message:"Comment delete"});
