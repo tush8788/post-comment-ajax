@@ -19,10 +19,21 @@ module.exports.create = async function (req, res) {
                     post: req.body.postId
                 }
             )
-            req.flash('success',"new Comment added !");   
+           // req.flash('success',"new Comment added !");   
             post.comments.push(newComment);
 
             post.save();
+            //check req is ajax req 
+            if(req.xhr){
+                return res.status(200).json({
+                    message:"comment created successfully",
+                    data:{
+                        comment:newComment,
+                        user:req.user.name
+                    }
+                })
+            }
+
             return res.redirect('/');
         }
 
@@ -45,6 +56,17 @@ module.exports.deleteComment = async function (req, res) {
             comment.remove();
 
             await PostDB.findByIdAndUpdate(postID, { $pull: { comments: req.params.id } });
+
+            //handle ajax call
+            if(req.xhr){
+                return res.status(200).json({
+                    message:"comment delete successfully",
+                    data:{
+                        CommentId:req.params.id
+                    }
+                })
+            }
+
             req.flash('success',"Delete Comment!");   
             return res.redirect("back");
         }
