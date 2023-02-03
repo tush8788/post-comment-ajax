@@ -23,6 +23,10 @@ module.exports.create = async function (req, res) {
             post.comments.push(newComment);
 
             post.save();
+            //for accessing user fildes 
+            newComment = await newComment.populate([{ path: 'user', select: 'name email' }]);
+    
+            console.log(req.xhr);
             //check req is ajax req 
             if(req.xhr){
                 return res.status(200).json({

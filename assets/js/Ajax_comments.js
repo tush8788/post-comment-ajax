@@ -1,6 +1,8 @@
 {
     //create new comment 
     let createComment=function(){
+
+    // module.exports.createComment=function(){
         // alert("they call")
         let newComment=$('#createComment');
         newComment.submit(function(e){
@@ -20,6 +22,7 @@
 
                     //delete comment 
                     deleteComment($(' .delete-comment-btn',newCommentadd));
+                    // deleteComment(newCommentadd.find('.delete-comment-btn'));
                 },
                 error:function(error){
                     console.log(error.responseText);
@@ -81,3 +84,4 @@
     convertCommentToAjax();
     createComment();
 }
+
